@@ -1,8 +1,11 @@
-﻿namespace CollectionsPortal.Server.DataLayer.Models
+﻿using CollectionsPortal.Server.DataLayer.Models.Enums;
+using Microsoft.AspNetCore.Identity;
+
+namespace CollectionsPortal.Server.DataLayer.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public DateTime LastLogin { get; set; }
+        public Status Status { get; set; }
     }
 }
