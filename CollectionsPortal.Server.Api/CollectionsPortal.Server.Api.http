@@ -1,0 +1,6 @@
+@CollectionsPortal.Server.Api_HostAddress = http://localhost:5068
+
+GET {{CollectionsPortal.Server.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
