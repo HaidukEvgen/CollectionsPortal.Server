@@ -1,4 +1,5 @@
 ﻿using CollectionsPortal.Server.BusinessLayer.Models.User;
+using CollectionsPortal.Server.DataLayer.Models;
 using CollectionsPortal.Server.DataLayer.Models.Enums;
 
 namespace CollectionsPortal.Server.BusinessLayer.Services.Interfaces
@@ -19,5 +20,6 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Interfaces
 
         public Task<bool> IsUserExist(string username);
 
+        public Task<User> GetCurrentUserAsync();
     }
 }

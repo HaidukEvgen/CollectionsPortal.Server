@@ -4,6 +4,7 @@ using CollectionsPortal.Server.DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollectionsPortal.Server.DataLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122122205_Collection")]
+    partial class Collection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,9 +50,6 @@ namespace CollectionsPortal.Server.DataLayer.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CustomBool1Name")
                         .HasColumnType("nvarchar(max)");
@@ -111,8 +111,6 @@ namespace CollectionsPortal.Server.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Collections");
                 });
@@ -445,13 +443,7 @@ namespace CollectionsPortal.Server.DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CollectionsPortal.Server.DataLayer.Models.User", "Creator")
-                        .WithMany("Collections")
-                        .HasForeignKey("CreatorId");
-
                     b.Navigation("Category");
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("CollectionsPortal.Server.DataLayer.Models.CollectionItem", b =>
@@ -519,11 +511,6 @@ namespace CollectionsPortal.Server.DataLayer.Migrations
             modelBuilder.Entity("CollectionsPortal.Server.DataLayer.Models.Collection", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("CollectionsPortal.Server.DataLayer.Models.User", b =>
-                {
-                    b.Navigation("Collections");
                 });
 #pragma warning restore 612, 618
         }

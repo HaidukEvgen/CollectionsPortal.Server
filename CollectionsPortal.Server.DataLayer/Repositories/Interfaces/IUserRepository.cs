@@ -1,7 +1,7 @@
 ﻿using CollectionsPortal.Server.DataLayer.Models;
 using CollectionsPortal.Server.DataLayer.Models.Enums;
 
-namespace CollectionsPortal.Server.DataLayer.Repositories
+namespace CollectionsPortal.Server.DataLayer.Repositories.Interfaces
 {
     public interface IUserRepository
     {

@@ -4,8 +4,10 @@ using CollectionsPortal.Server.BusinessLayer.Models.User;
 using CollectionsPortal.Server.BusinessLayer.Services.Interfaces;
 using CollectionsPortal.Server.DataLayer.Models;
 using CollectionsPortal.Server.DataLayer.Models.Enums;
-using CollectionsPortal.Server.DataLayer.Repositories;
+using CollectionsPortal.Server.DataLayer.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
 {
@@ -16,18 +18,21 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(IUserRepository userRepository,
             IJwtTokenGenerator jwtTokenGenerator,
             IMapper mapper,
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IEnumerable<UserDto>> GetAllAsync()
@@ -48,7 +53,7 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
                 throw new RegisterException(result.Errors.FirstOrDefault().Description);
             }
 
-            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
         }
 
         public async Task<string> LoginAsync(LoginUserDto loginUserDto)
@@ -105,6 +110,22 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             var user = await _userManager.FindByNameAsync(username);
 
             return user is not null;
+        }
+
+        public async Task<User> GetCurrentUserAsync()
+        {
+            var id = GetCurrentUserId();
+            return await _userManager.FindByIdAsync(id);
+        }
+
+        private string GetCurrentUserId()
+        {
+            return _httpContextAccessor
+                .HttpContext
+                .User
+                .Claims
+                .First(x => x.Type == ClaimTypes.NameIdentifier)
+                .Value;
         }
     }
 }

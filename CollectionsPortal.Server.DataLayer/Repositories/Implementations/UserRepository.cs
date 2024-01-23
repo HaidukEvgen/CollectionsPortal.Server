@@ -1,9 +1,10 @@
 ﻿using CollectionsPortal.Server.DataLayer.Data;
 using CollectionsPortal.Server.DataLayer.Models;
 using CollectionsPortal.Server.DataLayer.Models.Enums;
+using CollectionsPortal.Server.DataLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CollectionsPortal.Server.DataLayer.Repositories
+namespace CollectionsPortal.Server.DataLayer.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {

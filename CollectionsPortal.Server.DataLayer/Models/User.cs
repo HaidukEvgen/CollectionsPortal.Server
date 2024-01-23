@@ -7,5 +7,6 @@ namespace CollectionsPortal.Server.DataLayer.Models
     {
         public DateTime LastLogin { get; set; }
         public Status Status { get; set; }
+        public virtual IList<Collection> Collections { get; set; }
     }
 }

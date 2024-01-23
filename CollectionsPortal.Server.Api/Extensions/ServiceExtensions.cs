@@ -5,7 +5,8 @@ using CollectionsPortal.Server.BusinessLayer.Services.Interfaces;
 using CollectionsPortal.Server.BusinessLayer.Settings;
 using CollectionsPortal.Server.DataLayer.Data;
 using CollectionsPortal.Server.DataLayer.Models;
-using CollectionsPortal.Server.DataLayer.Repositories;
+using CollectionsPortal.Server.DataLayer.Repositories.Implementations;
+using CollectionsPortal.Server.DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +38,10 @@ namespace CollectionsPortal.Server.Api.Extensions
         public static IServiceCollection ConfigureSqlServer(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("CollectionsDbConnectionString");
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
+            services.
+                AddDbContext<AppDbContext>(
+                    b => b.UseLazyLoadingProxies()
+                          .UseSqlServer(connectionString));
             return services;
         }
 
@@ -46,7 +49,19 @@ namespace CollectionsPortal.Server.Api.Extensions
         {
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAzureService, AzureSerivce>();
+            services.AddScoped<ICollectionService, CollectionService>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureRepositories(this IServiceCollection services)
+        {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICollectionRepository, CollectionRepository>();
+            services.AddScoped<ICollectionCategoryRepository, CollectionCategoryRepository>();
+            services.AddScoped<IItemTagRepository, ItemTagRepository>();
+            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
 
             return services;
         }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CollectionsPortal.Server.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController(IUserService userService) : ControllerBase
     {
         [HttpPost("register")]
