@@ -46,7 +46,7 @@ namespace CollectionsPortal.Server.Api.Middlewares
             if (isBanned)
             {
                 await WriteErrorResponce(context, StatusCodes.Status403Forbidden, UserBannedException.ErrorMessage);
-                return;  
+                return;
             }
 
             await next(context);
@@ -57,7 +57,7 @@ namespace CollectionsPortal.Server.Api.Middlewares
             return (url.EndsWith("users/login") || url.EndsWith("users/register"));
         }
 
-        private async Task WriteErrorResponce(HttpContext context, int statusCode, string message) 
+        private async Task WriteErrorResponce(HttpContext context, int statusCode, string message)
         {
             context.Response.StatusCode = statusCode;
             await context.Response.WriteAsync(
