@@ -201,6 +201,12 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             await _collectionItemRepository.RemoveAsync(excistingItem);
         }
 
+        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
+        {
+            var categories = await _collectionCategoryRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories);
+        }
+
         private async Task CheckForExistingTags(CollectionItem newItem, IEnumerable<string> tags)
         {
             var existingTags = await _itemTagRepository.GetTagsByNamesAsync(tags);
@@ -219,6 +225,5 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
                 }
             }
         }
-
     }
 }

@@ -17,5 +17,6 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Interfaces
         public Task UpdateCollectionItemAsync(int collectionId, int itemId, NewItemDto updateItemDto);
         public Task<IEnumerable<ItemTagDto>> GetAllTagsAsync();
         public Task DeleteCollectionItemAsync(int collectionId, int itemId);
+        Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync();
     }
 }
