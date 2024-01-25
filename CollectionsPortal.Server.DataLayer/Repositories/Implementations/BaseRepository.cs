@@ -19,8 +19,8 @@ namespace CollectionsPortal.Server.DataLayer.Repositories.Implementations
         public async Task<int> CountAsync()
             => await _dbSet.CountAsync();
 
-        public virtual async Task<DbModel> GetAsync(int id)
-            => await _dbSet.FirstAsync(x => x.Id == id);
+        public virtual async Task<DbModel?> GetAsync(int id)
+            => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
 
         public virtual async Task<IEnumerable<DbModel>> GetAllAsync()
             => await _dbSet.ToListAsync();

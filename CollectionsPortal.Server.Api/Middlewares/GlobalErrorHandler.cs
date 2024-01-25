@@ -31,6 +31,7 @@ namespace CollectionsPortal.Server.Api.Middlewares
                     LoginException => (int)HttpStatusCode.Unauthorized,
                     UserBannedException => (int)HttpStatusCode.Forbidden,
                     UserDeletedException => (int)HttpStatusCode.Forbidden,
+                    EntityNotFoundException => (int)HttpStatusCode.NotFound,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 

@@ -60,6 +60,12 @@ namespace CollectionsPortal.Server.Api.Controllers
             return Ok(await _collectionService.GetAllCollectionItemsAsync(collectionId));
         }
 
+        [HttpGet("{collectionId}/items/{itemId}")]
+        public async Task<IActionResult> GetCollectionItem([FromRoute] int collectionId, [FromRoute] int itemId)
+        {
+            return Ok(await _collectionService.GetCollectionItemAsync(collectionId, itemId));
+        }
+
         [Authorize(nameof(CollectionAccessForAdminOrCreatorRequirement))]
         [HttpPost("{collectionId}/items")]
         public async Task<IActionResult> AddCollectionItem([FromRoute] int collectionId, [FromBody] NewItemDto newItemDto)

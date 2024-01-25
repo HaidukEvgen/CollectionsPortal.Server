@@ -2,12 +2,12 @@
 {
     public class Collection : BaseModel
     {
-        public virtual User Creator { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public virtual CollectionCategory Category { get; set; }
         public virtual IList<CollectionItem> Items { get; set; }
+        public virtual User Creator { get; set; }
         public string? CustomString1Name { get; set; }
         public string? CustomString2Name { get; set; }
         public string? CustomString3Name { get; set; }

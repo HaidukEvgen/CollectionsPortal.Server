@@ -47,6 +47,11 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
         {
             var collection = await _collectionRepository.GetAsync(id);
 
+            if (collection is null)
+            {
+                throw new EntityNotFoundException(nameof(Collection), id.ToString());
+            }
+
             return _mapper.Map<CollectionDto>(collection);
         }
 
@@ -119,7 +124,32 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
         public async Task<IEnumerable<ItemDto>> GetAllCollectionItemsAsync(int collectionId)
         {
             var collection = await _collectionRepository.GetAsync(collectionId);
+
+            if (collection == null)
+            {
+                throw new EntityNotFoundException(nameof(Collection), collectionId.ToString());
+            }
+
             return _mapper.Map<IEnumerable<ItemDto>>(collection.Items);
+        }
+
+        public async Task<ItemDto> GetCollectionItemAsync(int collectionId, int itemId)
+        {
+            var collection = await _collectionRepository.GetAsync(collectionId);
+
+            if (collection == null)
+            {
+                throw new EntityNotFoundException(nameof(Collection), collectionId.ToString());
+            }
+
+            var item = collection.Items.FirstOrDefault(i => i.Id == itemId);
+
+            if (item == null)
+            {
+                throw new EntityNotFoundException(nameof(CollectionItem), itemId.ToString());
+            }
+
+            return _mapper.Map<ItemDto>(item);
         }
 
         public async Task UpdateCollectionItemAsync(int collectionId, int itemId, NewItemDto updateItemDto)
@@ -150,6 +180,7 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             var tags = await _itemTagRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<ItemTagDto>>(tags);
         }
+
 
         public async Task DeleteCollectionItemAsync(int collectionId, int itemId)
         {
@@ -188,5 +219,6 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
                 }
             }
         }
+
     }
 }
