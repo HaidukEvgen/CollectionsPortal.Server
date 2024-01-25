@@ -17,8 +17,13 @@ namespace CollectionsPortal.Server.BusinessLayer.Infrastructure.Mapper
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.LastLogin, opt => opt.MapFrom(src => DateTime.Now));
 
-            CreateMap<Collection, CollectionDto>().ReverseMap();
+            CreateMap<CollectionDto, Collection>();
 
+            CreateMap<Collection, CollectionDto>()
+                .ForMember(dest => dest.CreatorName, opt => opt.MapFrom(src => src.Creator.UserName));
+
+            CreateMap<CollectionCategory, CategoryDto>().ReverseMap();
+            
             CreateMap<NewCollectionDto, Collection>();
 
             CreateMap<CollectionItem, ItemDto>().ReverseMap();

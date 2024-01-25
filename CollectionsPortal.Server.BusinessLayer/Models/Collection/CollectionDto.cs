@@ -8,8 +8,9 @@ namespace CollectionsPortal.Server.BusinessLayer.Models.Collection
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-        public string Category { get; set; }
+        public CategoryDto Category { get; set; }
         public IEnumerable<ItemDto> Items { get; set; }
+        public string CreatorName { get; set; }
         public string? CustomString1Name { get; set; }
         public string? CustomString2Name { get; set; }
         public string? CustomString3Name { get; set; }

@@ -13,6 +13,7 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Interfaces
         public Task<bool> IsCollectionOwner(int collectionId, string userId);
         public Task AddItemToCollectionAsync(int collectionId, NewItemDto newItemDto);
         Task<IEnumerable<ItemDto>> GetAllCollectionItemsAsync(int collectionId);
+        Task<ItemDto> GetCollectionItemAsync(int collectionId, int itemId);
         public Task UpdateCollectionItemAsync(int collectionId, int itemId, NewItemDto updateItemDto);
         public Task<IEnumerable<ItemTagDto>> GetAllTagsAsync();
         public Task DeleteCollectionItemAsync(int collectionId, int itemId);
