@@ -54,6 +54,18 @@ namespace CollectionsPortal.Server.Api.Controllers
             return Ok();
         }
 
+        [HttpGet("latest-items")]
+        public async Task<IActionResult> GetLatestItems([FromQuery] int amount = 5)
+        {
+            return Ok(await _collectionService.GetLatestItemsAsync(amount));
+        }
+
+        [HttpGet("biggest")]
+        public async Task<IActionResult> GetBiggestCollections([FromQuery] int amount = 5)
+        {
+            return Ok(await _collectionService.GetBiggestCollectionsAsync(amount));
+        }
+
         [HttpGet("{collectionId}/items")]
         public async Task<IActionResult> GetAllCollectionItems([FromRoute] int collectionId)
         {

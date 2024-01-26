@@ -43,6 +43,13 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             return _mapper.Map<IEnumerable<CollectionDto>>(collections);
         }
 
+        public async Task<IEnumerable<CollectionDto>> GetBiggestCollectionsAsync(int amount)
+        {
+            var collections = await _collectionRepository.GetBiggestAsync(amount);
+
+            return _mapper.Map<IEnumerable<CollectionDto>>(collections);
+        }
+
         public async Task<CollectionDto> GetCollectionAsync(int id)
         {
             var collection = await _collectionRepository.GetAsync(id);
@@ -98,9 +105,21 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             await _collectionRepository.RemoveAsync(collection);
         }
 
+        public async Task<IEnumerable<ItemGeneralDto>> GetLatestItemsAsync(int amount)
+        {
+            var items = await _collectionItemRepository.GetLatestAsync(amount);
+
+            return _mapper.Map<IEnumerable<ItemGeneralDto>>(items);
+        }
+
         public async Task<bool> IsCollectionOwner(int collectionId, string userId)
         {
             var collection = await _collectionRepository.GetAsync(collectionId);
+
+            if (collection == null)
+            {
+                throw new EntityNotFoundException(nameof(Collection), collectionId.ToString());
+            }
 
             return collection.Creator.Id == userId;
         }
