@@ -32,6 +32,12 @@ namespace CollectionsPortal.Server.BusinessLayer.Infrastructure.Mapper
 
             CreateMap<NewItemDto, CollectionItem>()
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(_ => new List<ItemTag>()));
+
+            CreateMap<CollectionItem, ItemGeneralDto>()
+                .ForMember(dest => dest.CollectionName, opt => opt.MapFrom(src => src.Collection.Name))
+                .ForMember(dest => dest.CollectionId, opt => opt.MapFrom(src => src.Collection.Id))
+                .ForMember(dest => dest.CreatorName, opt => opt.MapFrom(src => src.Collection.Creator.UserName));
+
         }
     }
 }

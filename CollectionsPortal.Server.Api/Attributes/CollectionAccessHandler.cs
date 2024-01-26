@@ -43,7 +43,7 @@ namespace CollectionsPortal.Server.Api.Attributes
         private int GetCollectionIdFromRoute()
         {
             var routeValues = _httpContextAccessor.HttpContext?.Request.RouteValues;
-            if (routeValues != null && routeValues.TryGetValue("id", out var id))
+            if (routeValues != null && routeValues.TryGetValue("collectionId", out var id))
             {
                 if (int.TryParse(id?.ToString(), out var collectionId))
                 {

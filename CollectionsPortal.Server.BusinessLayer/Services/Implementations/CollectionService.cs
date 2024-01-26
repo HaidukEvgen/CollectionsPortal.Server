@@ -43,6 +43,13 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             return _mapper.Map<IEnumerable<CollectionDto>>(collections);
         }
 
+        public async Task<IEnumerable<CollectionDto>> GetBiggestCollectionsAsync(int amount)
+        {
+            var collections = await _collectionRepository.GetBiggestAsync(amount);
+
+            return _mapper.Map<IEnumerable<CollectionDto>>(collections);
+        }
+
         public async Task<CollectionDto> GetCollectionAsync(int id)
         {
             var collection = await _collectionRepository.GetAsync(id);
@@ -98,9 +105,21 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             await _collectionRepository.RemoveAsync(collection);
         }
 
+        public async Task<IEnumerable<ItemGeneralDto>> GetLatestItemsAsync(int amount)
+        {
+            var items = await _collectionItemRepository.GetLatestAsync(amount);
+
+            return _mapper.Map<IEnumerable<ItemGeneralDto>>(items);
+        }
+
         public async Task<bool> IsCollectionOwner(int collectionId, string userId)
         {
             var collection = await _collectionRepository.GetAsync(collectionId);
+
+            if (collection == null)
+            {
+                throw new EntityNotFoundException(nameof(Collection), collectionId.ToString());
+            }
 
             return collection.Creator.Id == userId;
         }
@@ -201,6 +220,12 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
             await _collectionItemRepository.RemoveAsync(excistingItem);
         }
 
+        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
+        {
+            var categories = await _collectionCategoryRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories);
+        }
+
         private async Task CheckForExistingTags(CollectionItem newItem, IEnumerable<string> tags)
         {
             var existingTags = await _itemTagRepository.GetTagsByNamesAsync(tags);
@@ -219,6 +244,5 @@ namespace CollectionsPortal.Server.BusinessLayer.Services.Implementations
                 }
             }
         }
-
     }
 }
